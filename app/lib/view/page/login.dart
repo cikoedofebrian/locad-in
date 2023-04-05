@@ -113,7 +113,9 @@ class LoginPage extends StatelessWidget {
                   elevation: 5,
                   borderRadius: BorderRadius.circular(10),
                   child: InkWell(
-                    onTap: () => login(),
+                    // onTap: () => login(),
+                    onTap: () =>
+                        Navigator.pushReplacementNamed(context, '/home'),
                     child: Container(
                       alignment: Alignment.center,
                       width: double.infinity,

@@ -8,12 +8,14 @@ class FavoritePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColor.primary,
-      body: CustomScrollView(
+    return Stack(children: [
+      Container(
+          height: MediaQuery.of(context).size.height * 0.5,
+          color: AppColor.primary),
+      CustomScrollView(
         slivers: [
           SliverAppBar(
-            floating: true,
+            floating: false,
             backgroundColor: AppColor.primary,
             expandedHeight: MediaQuery.of(context).size.height * 0.14,
             pinned: false,
@@ -29,7 +31,7 @@ class FavoritePage extends StatelessWidget {
           )
         ],
       ),
-    );
+    ]);
   }
 }
 

@@ -1,6 +1,8 @@
 import 'package:app/constant/appcolor.dart';
 import 'package:app/view/page/favorite.dart';
+import 'package:app/view/page/history.dart';
 import 'package:app/view/page/homeex.dart';
+import 'package:app/view/page/request.dart';
 import 'package:app/view/widgets/custom_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -16,12 +18,7 @@ class HomeNav extends StatefulWidget {
 class _HomeNavState extends State<HomeNav> {
   int _selectedIndex = 0;
 
-  List _pageOption = [
-    HomeEx(),
-    FavoritePage(),
-    HomeEx(),
-    HomeEx(),
-  ];
+  List _pageOption = [HomeEx(), FavoritePage(), History(), RequestPage()];
   void _onItemTapped(int newValue) {
     setState(() {
       _selectedIndex = newValue;

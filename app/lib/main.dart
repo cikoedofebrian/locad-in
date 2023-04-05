@@ -28,15 +28,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         textTheme: GoogleFonts.poppinsTextTheme(),
         primarySwatch: Colors.blue,
       ),
-      home: HomeNav(),
+      home: LoginPage(),
       routes: {
         "/login": (context) => LoginPage(),
-        "/home": (context) => const Home(),
+        "/home": (context) => const HomeNav(),
         "/register": (context) => RegisterPage(),
         "/forgot-password": (context) => const ForgotPassword(),
         '/profile': (context) => const Profile(),

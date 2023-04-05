@@ -8,38 +8,42 @@ class HomeEx extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColor.primary,
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            floating: true,
-            backgroundColor: AppColor.primary,
-            expandedHeight: MediaQuery.of(context).size.height * 0.22,
-            pinned: false,
-            flexibleSpace: FlexibleSpaceBar(
-              // centerTitle: true,
-              // title: Text("ambatuk",
-              //     style: TextStyle(
-              //       color: Colors.white,
-              //       fontSize: 16.0,
-              //     ) //TextStyle
-              //     ), //Text
-              background: CustomAppBar(),
+    return Stack(
+      children: [
+        Container(
+            height: MediaQuery.of(context).size.height * 0.5,
+            color: AppColor.primary),
+        CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              floating: false,
+              backgroundColor: AppColor.primary,
+              expandedHeight: MediaQuery.of(context).size.height * 0.22,
+              pinned: false,
+              flexibleSpace: FlexibleSpaceBar(
+                // centerTitle: true,
+                // title: Text("ambatuk",
+                //     style: TextStyle(
+                //       color: Colors.white,
+                //       fontSize: 16.0,
+                //     ) //TextStyle
+                //     ), //Text
+                background: CustomAppBar(),
 
-              //Images.network
+                //Images.network
+              ),
+              // flexibleSpace: CustomAppBar(),
+              // expandedHeight: 220,
             ),
-            // flexibleSpace: CustomAppBar(),
-            // expandedHeight: 220,
-          ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) => Content(),
-              childCount: 1,
-            ),
-          )
-        ],
-      ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) => Content(),
+                childCount: 1,
+              ),
+            )
+          ],
+        )
+      ],
     );
   }
 }
