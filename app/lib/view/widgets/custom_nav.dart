@@ -17,9 +17,12 @@ class _CustomNavState extends State<CustomNav> {
   Widget build(BuildContext context) {
     return Container(
       height: 100,
-      decoration: BoxDecoration(color: Colors.white, boxShadow: [
-        BoxShadow(blurRadius: 2, color: Colors.black12, spreadRadius: 3)
-      ]),
+      decoration: BoxDecoration(
+          color: AppColor.primary,
+          boxShadow: [
+            BoxShadow(blurRadius: 2, color: Colors.black12, spreadRadius: 3)
+          ],
+          borderRadius: BorderRadius.circular(20)),
       padding: const EdgeInsets.symmetric(
         horizontal: 20,
       ),
@@ -39,7 +42,7 @@ class _CustomNavState extends State<CustomNav> {
                         height: 5,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: AppColor.primary,
+                          color: Colors.amber,
                           boxShadow: const [
                             BoxShadow(
                                 color: Colors.black12,
@@ -55,16 +58,14 @@ class _CustomNavState extends State<CustomNav> {
                     Icon(
                       Icons.home_rounded,
                       size: 30,
-                      color:
-                          _choosenIndex == 0 ? AppColor.primary : Colors.grey,
+                      color: _choosenIndex == 0 ? Colors.amber : Colors.white,
                     ),
                     Text(
                       'Beranda',
                       style: TextStyle(
                           fontSize: 12,
-                          color: _choosenIndex == 0
-                              ? AppColor.primary
-                              : Colors.grey),
+                          color:
+                              _choosenIndex == 0 ? Colors.amber : Colors.white),
                     ),
                   ],
                 ),
@@ -87,7 +88,7 @@ class _CustomNavState extends State<CustomNav> {
                     ? Container(
                         height: 5,
                         decoration: BoxDecoration(
-                          color: AppColor.primary,
+                          color: Colors.amber,
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
@@ -106,16 +107,14 @@ class _CustomNavState extends State<CustomNav> {
                     Icon(
                       Icons.favorite_outline_rounded,
                       size: 30,
-                      color:
-                          _choosenIndex == 1 ? AppColor.primary : Colors.grey,
+                      color: _choosenIndex == 1 ? Colors.amber : Colors.white,
                     ),
                     Text(
                       'Favorit',
                       style: TextStyle(
                           fontSize: 12,
-                          color: _choosenIndex == 1
-                              ? AppColor.primary
-                              : Colors.grey),
+                          color:
+                              _choosenIndex == 1 ? Colors.amber : Colors.white),
                     ),
                   ],
                 ),
@@ -138,7 +137,7 @@ class _CustomNavState extends State<CustomNav> {
                     ? Container(
                         height: 5,
                         decoration: BoxDecoration(
-                          color: AppColor.primary,
+                          color: Colors.amber,
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
@@ -157,12 +156,14 @@ class _CustomNavState extends State<CustomNav> {
                     Icon(
                       Icons.history_rounded,
                       size: 30,
-                      color:
-                          _choosenIndex == 2 ? AppColor.primary : Colors.grey,
+                      color: _choosenIndex == 2 ? Colors.amber : Colors.white,
                     ),
                     Text(
                       'Riwayat',
-                      style: TextStyle(fontSize: 12, color: AppColor.primary),
+                      style: TextStyle(
+                          fontSize: 12,
+                          color:
+                              _choosenIndex == 2 ? Colors.amber : Colors.white),
                     ),
                   ],
                 ),
@@ -185,7 +186,7 @@ class _CustomNavState extends State<CustomNav> {
                     ? Container(
                         height: 5,
                         decoration: BoxDecoration(
-                          color: AppColor.primary,
+                          color: Colors.amber,
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
@@ -204,15 +205,13 @@ class _CustomNavState extends State<CustomNav> {
                     Icon(
                       Icons.add_box_outlined,
                       size: 30,
-                      color:
-                          _choosenIndex == 3 ? AppColor.primary : Colors.grey,
+                      color: _choosenIndex == 3 ? Colors.amber : Colors.white,
                     ),
                     Text(
                       'Usul',
                       style: TextStyle(
                         fontSize: 12,
-                        color:
-                            _choosenIndex == 0 ? AppColor.primary : Colors.grey,
+                        color: _choosenIndex == 3 ? Colors.amber : Colors.white,
                       ),
                     ),
                   ],
@@ -225,17 +224,17 @@ class _CustomNavState extends State<CustomNav> {
         // Icon(
         //   Icons.favorite_outline_rounded,
         //   size: 30,
-        //   color: Colors.grey,
+        //   color: Colors.white,
         // ),
         // Icon(
         //   Icons.history_rounded,
         //   size: 30,
-        //   color: Colors.grey,
+        //   color: Colors.white,
         // ),
         // Icon(
         //   Icons.add_box_outlined,
         //   size: 30,
-        //   color: Colors.grey,
+        //   color: Colors.white,
         // ),
       ]),
     );

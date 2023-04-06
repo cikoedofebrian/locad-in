@@ -64,9 +64,9 @@ class _HomeNavState extends State<HomeNav> {
           return Stack(children: [
             _pageOption[_selectedIndex],
             Positioned(
-              left: 0,
-              bottom: 0,
-              right: 0,
+              left: 20,
+              bottom: 20,
+              right: 20,
               child: CustomNav(onItemTapped: _onItemTapped),
             )
           ]);
