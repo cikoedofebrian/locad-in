@@ -2,7 +2,9 @@ import 'package:app/view/page/restaurantdetails.dart';
 import 'package:flutter/material.dart';
 
 class RecommendedItem extends StatelessWidget {
-  const RecommendedItem({super.key});
+  const RecommendedItem({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

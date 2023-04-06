@@ -1,7 +1,5 @@
 import 'package:app/constant/appcolor.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class RestaurantDetails extends StatefulWidget {
   const RestaurantDetails({super.key});

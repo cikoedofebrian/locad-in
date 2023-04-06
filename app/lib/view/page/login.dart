@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:app/constant/api.dart';
+import 'package:app/provider/userprov.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../templates/defaultpage.dart';
 import '../../constant/appcolor.dart';
 import 'package:http/http.dart' as http;
@@ -13,13 +15,17 @@ class LoginPage extends StatelessWidget {
   var email = '';
   var password = '';
 
-  void login() async {
+  void login(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      final url = Uri.parse(Api.login);
-      final result =
-          await http.post(url, body: {'username': email, 'password': password});
-      print(jsonDecode(result.body));
+      final result = await Provider.of<UserProvider>(context, listen: false)
+          .login(email, password);
+      if (result.isNotEmpty) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(result)));
+      } else {
+        Navigator.pushReplacementNamed(context, '/home');
+      }
     }
   }
 
@@ -43,7 +49,7 @@ class LoginPage extends StatelessWidget {
               children: [
                 Container(
                   child: Text(
-                    'Email',
+                    'Username',
                   ),
                   margin: EdgeInsets.all(8),
                 ),
@@ -52,7 +58,9 @@ class LoginPage extends StatelessWidget {
                   style: TextStyle(fontSize: 14),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return "Email can't be empty";
+                      return "Username can't be empty";
+                    } else if (value.length < 8 || value.length > 15) {
+                      return "A Username have minimum and maximum length of 8 and 15";
                     }
                   },
                   textAlignVertical: TextAlignVertical.center,
@@ -60,7 +68,7 @@ class LoginPage extends StatelessWidget {
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide.none),
-                    hintText: "Email",
+                    hintText: "Username",
                     filled: true,
                     contentPadding: EdgeInsets.symmetric(horizontal: 20),
                     suffixIcon: Icon(Icons.email),
@@ -113,9 +121,7 @@ class LoginPage extends StatelessWidget {
                   elevation: 5,
                   borderRadius: BorderRadius.circular(10),
                   child: InkWell(
-                    // onTap: () => login(),
-                    onTap: () =>
-                        Navigator.pushReplacementNamed(context, '/home'),
+                    onTap: () => login(context),
                     child: Container(
                       alignment: Alignment.center,
                       width: double.infinity,

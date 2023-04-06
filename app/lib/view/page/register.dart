@@ -1,4 +1,7 @@
+import 'package:app/provider/userprov.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../templates/defaultpage.dart';
 import '../../constant/appcolor.dart';
 import '../../constant/api.dart';
@@ -14,14 +17,20 @@ class RegisterPage extends StatelessWidget {
   String username = '';
 
   void register(BuildContext context) async {
-    print('ss');
     _formKey.currentState!.save();
     if (_formKey.currentState!.validate()) {
-      final url = Uri.parse(Api.register);
-      final result = await http.post(
-        url,
-        body: {"username": username, "email": email, "password": password},
-      );
+      final result = await Provider.of<UserProvider>(context, listen: false)
+          .register(email, username, password);
+
+      if (result.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(result),
+          ),
+        );
+      } else {
+        Navigator.pushReplacementNamed(context, '/home');
+      }
     }
   }
 
@@ -55,6 +64,8 @@ class RegisterPage extends StatelessWidget {
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Please enter an username";
+                    } else if (value.length < 8 || value.length > 15) {
+                      return "A username have minimum and maximum length of 8 and 15";
                     }
                   },
                   textAlignVertical: TextAlignVertical.center,
@@ -82,7 +93,10 @@ class RegisterPage extends StatelessWidget {
                   onSaved: (newValue) => email = newValue!,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return "Please give it an email";
+                      return "Please enter an email";
+                    }
+                    if (!EmailValidator.validate(email)) {
+                      return "Please give a valid email address";
                     }
                   },
                   textAlignVertical: TextAlignVertical.center,
@@ -111,7 +125,9 @@ class RegisterPage extends StatelessWidget {
                   style: TextStyle(fontSize: 14),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return "Please give it some password";
+                      return "Please enter a password";
+                    } else if (value.length < 8 || value.length > 15) {
+                      return "A password have minimum and maximum length of 8 and 15";
                     }
                   },
                   textAlignVertical: TextAlignVertical.center,
@@ -140,7 +156,9 @@ class RegisterPage extends StatelessWidget {
                   style: TextStyle(fontSize: 14),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return "Please give it a password";
+                      return "Please enter a password";
+                    } else if (value.length < 8 || value.length > 15) {
+                      return "A password have minimum and maximum length of 8 and 15";
                     } else if (password != passwordConfirm) {
                       return "Password does not match";
                     }

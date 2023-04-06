@@ -1,10 +1,27 @@
+import 'package:app/provider/menuprov.dart';
+import 'package:app/provider/userprov.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SpecialItem extends StatelessWidget {
-  const SpecialItem({super.key});
+  const SpecialItem(
+      {super.key,
+      required this.id,
+      required this.title,
+      required this.location,
+      required this.imageUrl,
+      required this.isFavorite});
+
+  final String id;
+  final String title;
+  final String location;
+  final String imageUrl;
+  final bool isFavorite;
 
   @override
   Widget build(BuildContext context) {
+    final token = Provider.of<UserProvider>(context, listen: false).getToken;
+
     return Material(
       elevation: 4,
       borderRadius: BorderRadius.circular(20),
@@ -18,9 +35,7 @@ class SpecialItem extends StatelessWidget {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: NetworkImage(
-                            "https://cdn.linkumkm.id/library/7/8/9/7/2/78972_840x576.jpeg"),
-                        fit: BoxFit.cover),
+                        image: NetworkImage(imageUrl), fit: BoxFit.cover),
                     color: Colors.black,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
@@ -31,11 +46,18 @@ class SpecialItem extends StatelessWidget {
                 Positioned(
                   right: 10,
                   top: 10,
-                  child: CircleAvatar(
-                    backgroundColor: Colors.white,
-                    child: Icon(
-                      Icons.favorite,
-                      color: Colors.red,
+                  child: InkWell(
+                    onTap: () {
+                      print("tested");
+                      Provider.of<MenuProvider>(context, listen: false)
+                          .addToFavorite(token, id);
+                    },
+                    child: CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        Icons.favorite,
+                        color: isFavorite == false ? Colors.grey : Colors.red,
+                      ),
                     ),
                   ),
                 )
@@ -50,7 +72,7 @@ class SpecialItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Mie Gacoan',
+                        title.toUpperCase(),
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
@@ -82,7 +104,7 @@ class SpecialItem extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    'Mastrip, Jember',
+                    location,
                     style: TextStyle(
                         fontSize: 12,
                         // fontWeight: FontWeight.normal,

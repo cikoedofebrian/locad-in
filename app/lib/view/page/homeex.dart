@@ -1,50 +1,50 @@
 import 'package:app/constant/appcolor.dart';
+import 'package:app/provider/menuprov.dart';
+import 'package:app/provider/userprov.dart';
 import 'package:app/view/widgets/recommendeditem.dart';
 import 'package:app/view/widgets/specialitem.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeEx extends StatelessWidget {
   const HomeEx({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-            height: MediaQuery.of(context).size.height * 0.5,
-            color: AppColor.primary),
-        CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              floating: false,
-              backgroundColor: AppColor.primary,
-              expandedHeight: MediaQuery.of(context).size.height * 0.22,
-              pinned: false,
-              flexibleSpace: FlexibleSpaceBar(
-                // centerTitle: true,
-                // title: Text("ambatuk",
-                //     style: TextStyle(
-                //       color: Colors.white,
-                //       fontSize: 16.0,
-                //     ) //TextStyle
-                //     ), //Text
-                background: CustomAppBar(),
-
-                //Images.network
-              ),
-              // flexibleSpace: CustomAppBar(),
-              // expandedHeight: 220,
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) => Content(),
-                childCount: 1,
-              ),
-            )
-          ],
-        )
-      ],
-    );
+    return FutureBuilder(
+        future: Future.wait([
+          Provider.of<MenuProvider>(context, listen: false).fetchFavoriteData(
+              Provider.of<UserProvider>(context, listen: false).getToken),
+          Provider.of<MenuProvider>(context, listen: false).fetchMenuData()
+        ]),
+        builder: (context, snapshot) {
+          return Stack(
+            children: [
+              Container(
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  color: AppColor.primary),
+              CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    floating: false,
+                    backgroundColor: AppColor.primary,
+                    expandedHeight: MediaQuery.of(context).size.height * 0.22,
+                    pinned: false,
+                    flexibleSpace: FlexibleSpaceBar(
+                      background: CustomAppBar(), //Images.network
+                    ),
+                  ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => Content(),
+                      childCount: 1,
+                    ),
+                  )
+                ],
+              )
+            ],
+          );
+        });
   }
 }
 
@@ -159,6 +159,7 @@ class Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final menuProvider = Provider.of<MenuProvider>(context);
     return Stack(
       children: [
         Column(
@@ -201,15 +202,25 @@ class Content extends StatelessWidget {
                   SizedBox(
                     height: 20,
                   ),
-                  SpecialItem(),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  SpecialItem(),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  SpecialItem(),
+                  ...menuProvider.list
+                      .map(
+                        (e) => Column(
+                          children: [
+                            SpecialItem(
+                              title: e.namaMenu,
+                              location: e.deskripsi,
+                              imageUrl: e.thumbnail,
+                              id: e.id.toString(),
+                              isFavorite:
+                                  menuProvider.isFavorite(e.id.toString()),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            )
+                          ],
+                        ),
+                      )
+                      .toList(),
                   SizedBox(
                     height: 100,
                   ),
@@ -224,7 +235,7 @@ class Content extends StatelessWidget {
                     bottomRight: Radius.circular(40),
                   ),
                   color: Colors.white),
-            )
+            ),
           ],
         ),
       ],

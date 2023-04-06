@@ -1,7 +1,11 @@
 import 'package:app/constant/appcolor.dart';
+import 'package:app/provider/menuprov.dart';
+import 'package:app/provider/userprov.dart';
 import 'package:app/view/widgets/recommendeditem.dart';
 import 'package:app/view/widgets/specialitem.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:provider/provider.dart';
 
 class FavoritePage extends StatelessWidget {
   const FavoritePage({super.key});
@@ -59,6 +63,7 @@ class Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final menuProvider = Provider.of<MenuProvider>(context);
     return Stack(
       children: [
         Column(
@@ -83,18 +88,49 @@ class Content extends StatelessWidget {
                   SizedBox(
                     height: 20,
                   ),
-                  ...List.generate(
-                    10,
-                    (index) => Column(children: [
-                      SpecialItem(),
-                      SizedBox(
-                        height: 20,
+
+                  ...menuProvider.favoriteList
+                      .map(
+                        (e) => Column(
+                          children: [
+                            SpecialItem(
+                              title: e.namaMenu,
+                              location: e.deskripsi,
+                              imageUrl: e.thumbnail,
+                              id: e.id.toString(),
+                              isFavorite:
+                                  menuProvider.isFavorite(e.id.toString()),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            )
+                          ],
+                        ),
                       )
-                    ]),
-                  ),
+                      .toList(),
                   SizedBox(
                     height: 100,
                   ),
+                  if (menuProvider.favoriteList.isEmpty)
+                    Container(
+                      height: 400,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.hourglass_empty_rounded,
+                            size: 80,
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+                          Text(
+                            "You don't have any favorite restaurant yet!",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
                 ],
               ),
             ),
