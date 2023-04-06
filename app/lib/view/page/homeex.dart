@@ -19,6 +19,7 @@ class HomeEx extends StatelessWidget {
         CustomScrollView(
           slivers: [
             SliverAppBar(
+              automaticallyImplyLeading: false,
               floating: false,
               backgroundColor: AppColor.primary,
               expandedHeight: MediaQuery.of(context).size.height * 0.22,
@@ -48,8 +49,6 @@ class CustomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        // alignment: Alignment.bottomCenter,
-        // height: 18,
         color: AppColor.primary,
         padding: EdgeInsets.only(left: 40, right: 40, top: 20),
         child: Column(
@@ -76,7 +75,7 @@ class CustomAppBar extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Halo, Ciko!',
+                      'Halo, ${Provider.of<UserProvider>(context, listen: false).getUsername}!',
                       style: TextStyle(color: Colors.white),
                     ),
                     Text(

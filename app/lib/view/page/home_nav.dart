@@ -1,3 +1,4 @@
+import 'package:app/constant/appcolor.dart';
 import 'package:app/provider/menuprov.dart';
 import 'package:app/provider/userprov.dart';
 import 'package:app/view/page/favorite.dart';
@@ -6,6 +7,7 @@ import 'package:app/view/page/homeex.dart';
 import 'package:app/view/page/request.dart';
 import 'package:app/view/widgets/custom_nav.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 class HomeNav extends StatefulWidget {
@@ -23,12 +25,18 @@ class _HomeNavState extends State<HomeNav> {
     future = Future.wait([
       Provider.of<MenuProvider>(context, listen: false).fetchFavoriteData(
           Provider.of<UserProvider>(context, listen: false).getToken),
-      Provider.of<MenuProvider>(context, listen: false).fetchMenuData()
+      Provider.of<MenuProvider>(context, listen: false).fetchMenuData(),
+      Future.delayed(Duration(seconds: 2))
     ]);
     super.initState();
   }
 
-  List _pageOption = [HomeEx(), FavoritePage(), History(), RequestPage()];
+  final List _pageOption = const [
+    HomeEx(),
+    FavoritePage(),
+    History(),
+    RequestPage()
+  ];
   void _onItemTapped(int newValue) {
     setState(() {
       _selectedIndex = newValue;
@@ -38,20 +46,33 @@ class _HomeNavState extends State<HomeNav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: FutureBuilder(
-            future: future,
-            builder: (context, snapshot) {
-              return Stack(children: [
-                _pageOption[_selectedIndex],
-                Positioned(
-                  left: 0,
-                  bottom: 0,
-                  right: 0,
-                  child: CustomNav(onItemTapped: _onItemTapped),
-                )
-              ]);
-            }));
+      backgroundColor: Colors.white,
+      body: FutureBuilder(
+        future: future,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Container(
+              color: AppColor.primary,
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Center(
+                child: LoadingAnimationWidget.inkDrop(
+                    color: Colors.white, size: 60),
+              ),
+            );
+          }
+          return Stack(children: [
+            _pageOption[_selectedIndex],
+            Positioned(
+              left: 0,
+              bottom: 0,
+              right: 0,
+              child: CustomNav(onItemTapped: _onItemTapped),
+            )
+          ]);
+        },
+      ),
+    );
   }
 }
 
