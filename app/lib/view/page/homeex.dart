@@ -11,40 +11,33 @@ class HomeEx extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: Future.wait([
-          Provider.of<MenuProvider>(context, listen: false).fetchFavoriteData(
-              Provider.of<UserProvider>(context, listen: false).getToken),
-          Provider.of<MenuProvider>(context, listen: false).fetchMenuData()
-        ]),
-        builder: (context, snapshot) {
-          return Stack(
-            children: [
-              Container(
-                  height: MediaQuery.of(context).size.height * 0.5,
-                  color: AppColor.primary),
-              CustomScrollView(
-                slivers: [
-                  SliverAppBar(
-                    floating: false,
-                    backgroundColor: AppColor.primary,
-                    expandedHeight: MediaQuery.of(context).size.height * 0.22,
-                    pinned: false,
-                    flexibleSpace: FlexibleSpaceBar(
-                      background: CustomAppBar(), //Images.network
-                    ),
-                  ),
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) => Content(),
-                      childCount: 1,
-                    ),
-                  )
-                ],
-              )
-            ],
-          );
-        });
+    return Stack(
+      children: [
+        Container(
+            height: MediaQuery.of(context).size.height * 0.5,
+            color: AppColor.primary),
+        CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              floating: false,
+              backgroundColor: AppColor.primary,
+              expandedHeight: MediaQuery.of(context).size.height * 0.22,
+              pinned: false,
+              flexibleSpace: FlexibleSpaceBar(
+                background: CustomAppBar(), //Images.network
+              ),
+            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) => Content(),
+                childCount: 1,
+              ),
+            )
+          ],
+        )
+      ],
+    );
+    ;
   }
 }
 
@@ -184,12 +177,11 @@ class Content extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 32, vertical: 10),
                     child: Text(
-                      'Recommendation',
+                      'Special Offers!',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                   ),
-                  // RecommendedItem(),
                   SizedBox(
                     height: 160,
                     child: ListView.builder(
@@ -200,7 +192,17 @@ class Content extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 10,
+                  ),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 32, vertical: 10),
+                    child: Text(
+                      'Recommendation',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
                   ),
                   ...menuProvider.list
                       .map(

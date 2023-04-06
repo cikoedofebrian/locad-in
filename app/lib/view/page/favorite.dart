@@ -117,16 +117,15 @@ class Content extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
-                            Icons.hourglass_empty_rounded,
-                            size: 80,
-                          ),
+                          Image.asset("assets/empty.png"),
                           SizedBox(
                             height: 40,
                           ),
                           Text(
                             "You don't have any favorite restaurant yet!",
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey),
                           ),
                         ],
                       ),

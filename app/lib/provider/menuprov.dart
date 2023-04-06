@@ -3,7 +3,6 @@ import 'package:app/constant/api.dart';
 import 'package:app/model/menumodel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 class MenuProvider extends ChangeNotifier {
   List<MenuModel> _list = [];
@@ -27,10 +26,10 @@ class MenuProvider extends ChangeNotifier {
     final isAlreadyFavorite =
         _favoritelist.indexWhere((element) => element.id.toString() == id);
     if (isAlreadyFavorite >= 0) {
-      await http.delete(url, headers: {'Authorization': "Bearer ${token}"});
+      await http.delete(url, headers: {'Authorization': "Bearer $token"});
       _favoritelist.removeAt(isAlreadyFavorite);
     } else {
-      await http.post(url, headers: {'Authorization': "Bearer ${token}"});
+      await http.post(url, headers: {'Authorization': "Bearer $token"});
       final pickedMenu =
           _list.firstWhere((element) => element.id.toString() == id);
       favoriteList.add(pickedMenu);

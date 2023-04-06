@@ -1,12 +1,12 @@
-import 'package:app/constant/appcolor.dart';
+import 'package:app/provider/menuprov.dart';
+import 'package:app/provider/userprov.dart';
 import 'package:app/view/page/favorite.dart';
 import 'package:app/view/page/history.dart';
 import 'package:app/view/page/homeex.dart';
 import 'package:app/view/page/request.dart';
 import 'package:app/view/widgets/custom_nav.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:provider/provider.dart';
 
 class HomeNav extends StatefulWidget {
   const HomeNav({super.key});
@@ -17,6 +17,16 @@ class HomeNav extends StatefulWidget {
 
 class _HomeNavState extends State<HomeNav> {
   int _selectedIndex = 0;
+  late Future future;
+  @override
+  void initState() {
+    future = Future.wait([
+      Provider.of<MenuProvider>(context, listen: false).fetchFavoriteData(
+          Provider.of<UserProvider>(context, listen: false).getToken),
+      Provider.of<MenuProvider>(context, listen: false).fetchMenuData()
+    ]);
+    super.initState();
+  }
 
   List _pageOption = [HomeEx(), FavoritePage(), History(), RequestPage()];
   void _onItemTapped(int newValue) {
@@ -29,15 +39,19 @@ class _HomeNavState extends State<HomeNav> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        body: Stack(children: [
-          _pageOption[_selectedIndex],
-          Positioned(
-            left: 0,
-            bottom: 0,
-            right: 0,
-            child: CustomNav(onItemTapped: _onItemTapped),
-          )
-        ]));
+        body: FutureBuilder(
+            future: future,
+            builder: (context, snapshot) {
+              return Stack(children: [
+                _pageOption[_selectedIndex],
+                Positioned(
+                  left: 0,
+                  bottom: 0,
+                  right: 0,
+                  child: CustomNav(onItemTapped: _onItemTapped),
+                )
+              ]);
+            }));
   }
 }
 
